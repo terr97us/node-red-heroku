@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "415788fa3e034aa3",
+        "type": "tab",
+        "label": "news",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "2924702c.b33a7",
         "type": "subflow",
         "name": "ui-table handler",
@@ -566,9 +574,379 @@
         "icon": "font-awesome/fa-table"
     },
     {
-        "id": "a1b424bbf58e76e9",
-        "type": "template",
+        "id": "710c5b90f62ecc27",
+        "type": "inject",
         "z": "3c1975f87cd0cabf",
+        "name": "save",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 85,
+        "y": 65,
+        "wires": [
+            [
+                "c969a78b44c2f3fb",
+                "af0048c0edd15676",
+                "ab829b4d2ed3f12b"
+            ]
+        ]
+    },
+    {
+        "id": "c969a78b44c2f3fb",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "flows.json",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "flows.json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 240,
+        "y": 80,
+        "wires": [
+            [
+                "2aa1b4a6b8843a40"
+            ]
+        ]
+    },
+    {
+        "id": "af0048c0edd15676",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "flows_cred.json",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "flows_cred.json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 120,
+        "wires": [
+            [
+                "2aa1b4a6b8843a40"
+            ]
+        ]
+    },
+    {
+        "id": "ab829b4d2ed3f12b",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "package.json",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "package.json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 160,
+        "wires": [
+            [
+                "2aa1b4a6b8843a40"
+            ]
+        ]
+    },
+    {
+        "id": "2aa1b4a6b8843a40",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "set msg.headers",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers.User-Agent",
+                "pt": "msg",
+                "to": "Node-RED",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "headers.Authorization",
+                "pt": "msg",
+                "to": "AUTHORIZATION_HEADER",
+                "tot": "env",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 60,
+        "wires": [
+            [
+                "583be81bb1e99943"
+            ]
+        ]
+    },
+    {
+        "id": "583be81bb1e99943",
+        "type": "http request",
+        "z": "3c1975f87cd0cabf",
+        "name": "GET (GitHub)",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.github.com/repos/terr97us/node-red-heroku",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 460,
+        "y": 180,
+        "wires": [
+            [
+                "af37799e2ee96ec1",
+                "bde6004e58b0e0ef"
+            ]
+        ]
+    },
+    {
+        "id": "af37799e2ee96ec1",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.sha",
+                "pt": "msg",
+                "to": "temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "16539dcc74e373d7"
+            ]
+        ]
+    },
+    {
+        "id": "16539dcc74e373d7",
+        "type": "file in",
+        "z": "3c1975f87cd0cabf",
+        "name": "",
+        "filename": "",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 340,
+        "y": 320,
+        "wires": [
+            [
+                "7947b816d27a2d77"
+            ]
+        ]
+    },
+    {
+        "id": "7947b816d27a2d77",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "set msg.payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"content\": $base64encode(payload)}",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload.sha",
+                "pt": "msg",
+                "to": "temp",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.message",
+                "pt": "msg",
+                "to": "Commit from nodered-on-cloud",
+                "tot": "str"
+            },
+            {
+                "t": "delete",
+                "p": "temp",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 360,
+        "wires": [
+            [
+                "b8553354306093cd"
+            ]
+        ]
+    },
+    {
+        "id": "b8553354306093cd",
+        "type": "change",
+        "z": "3c1975f87cd0cabf",
+        "name": "set headers",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"User-Agent\":\"Node-RED\"}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "headers.Authorization",
+                "pt": "msg",
+                "to": "AUTHORIZATION_HEADER",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 380,
+        "wires": [
+            [
+                "4c31e5e13e4ed43d"
+            ]
+        ]
+    },
+    {
+        "id": "4c31e5e13e4ed43d",
+        "type": "http request",
+        "z": "3c1975f87cd0cabf",
+        "name": "PUT (GitHub)",
+        "method": "PUT",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.github.com/repos/terr97us/node-red-heroku",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 240,
+        "y": 480,
+        "wires": [
+            [
+                "b9c402cde70bf4a3"
+            ]
+        ]
+    },
+    {
+        "id": "b9c402cde70bf4a3",
+        "type": "debug",
+        "z": "3c1975f87cd0cabf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "fcf36c95e7f149f5",
+        "type": "inject",
+        "z": "3c1975f87cd0cabf",
+        "name": "check env var",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "${AUTHORIZATION_HEADER}",
+        "payloadType": "str",
+        "x": 670,
+        "y": 100,
+        "wires": [
+            [
+                "bde6004e58b0e0ef"
+            ]
+        ]
+    },
+    {
+        "id": "bde6004e58b0e0ef",
+        "type": "debug",
+        "z": "3c1975f87cd0cabf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "7d40044060b5b706",
+        "type": "template",
+        "z": "415788fa3e034aa3",
         "name": "html",
         "field": "payload",
         "fieldType": "msg",
@@ -576,40 +954,40 @@
         "syntax": "plain",
         "template": "<!DOCTYPE html>\n<html>\n    <head>\n        <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css\"\n            integrity=\"sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2\" crossorigin=\"anonymous\">\n    </head>\n\n<body>\n\n    <h1>Hello World</h1>\n    <p>Test paragraph.</p>\n\n</body>\n\n</html>",
         "output": "str",
-        "x": 270,
-        "y": 80,
+        "x": 210,
+        "y": 140,
         "wires": [
             [
-                "08519a47c657e633"
+                "04886454f7d99860"
             ]
         ]
     },
     {
-        "id": "3c121a294668b759",
+        "id": "18a46ad2e9cabe33",
         "type": "http in",
-        "z": "3c1975f87cd0cabf",
+        "z": "415788fa3e034aa3",
         "name": "",
         "url": "db",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
-        "y": 120,
+        "x": 60,
+        "y": 180,
         "wires": [
             [
-                "a1b424bbf58e76e9"
+                "7d40044060b5b706"
             ]
         ]
     },
     {
-        "id": "08519a47c657e633",
+        "id": "04886454f7d99860",
         "type": "http response",
-        "z": "3c1975f87cd0cabf",
+        "z": "415788fa3e034aa3",
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 430,
-        "y": 180,
+        "x": 370,
+        "y": 240,
         "wires": []
     }
 ]
